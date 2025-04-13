@@ -1,4 +1,3 @@
-// /workspaces/Defi-Oracle-Tooling-Web3-Dashpanel/src/frontend/vite.config.ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 

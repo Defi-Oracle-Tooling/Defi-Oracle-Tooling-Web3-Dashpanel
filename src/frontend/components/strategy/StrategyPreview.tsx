@@ -63,13 +63,13 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
     // Validates the strategy using the store's validator
     const handleValidate = () => {
         setIsValidating(true);
-        
+
         // Simulate async validation
         setTimeout(() => {
             const result = validateStrategy();
             setValidationResult(result);
             setIsValidating(false);
-            
+
             // If there are errors, switch to the validation view
             if (!result.valid) {
                 setActiveView('validation');
@@ -90,7 +90,7 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
         let fileContent = '';
         let mimeType = '';
         let fileExtension = '';
-        
+
         if (fileFormat === 'json') {
             fileContent = formattedJson;
             mimeType = 'application/json';
@@ -115,12 +115,12 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                     return line;
                 })
                 .join('\n');
-            
+
             fileContent = yamlContent;
             mimeType = 'application/yaml';
             fileExtension = 'yml';
         }
-        
+
         // Create a download link and trigger the download
         const blob = new Blob([fileContent], { type: mimeType });
         const url = URL.createObjectURL(blob);
@@ -154,30 +154,30 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                     <div className={styles.previewControls}>
                         {/* View switcher */}
                         <div className={styles.viewTabs}>
-                            <button 
+                            <button
                                 className={`${styles.viewTab} ${activeView === 'json' ? styles.activeViewTab : ''}`}
                                 onClick={() => setActiveView('json')}
                             >
                                 JSON
                             </button>
-                            <button 
+                            <button
                                 className={`${styles.viewTab} ${activeView === 'visual' ? styles.activeViewTab : ''}`}
                                 onClick={() => setActiveView('visual')}
                             >
                                 Visual Summary
                             </button>
-                            <button 
+                            <button
                                 className={`${styles.viewTab} ${activeView === 'validation' ? styles.activeViewTab : ''}`}
                                 onClick={() => setActiveView('validation')}
                             >
                                 Validation {!validationResult.valid && '⚠️'}
                             </button>
                         </div>
-                        
+
                         <div className={styles.actionButtons}>
                             {activeView === 'json' && (
                                 <>
-                                    <select 
+                                    <select
                                         value={fileFormat}
                                         onChange={(e) => setFileFormat(e.target.value as 'json' | 'yaml')}
                                         className={styles.formatSelect}
@@ -199,7 +199,7 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     </button>
                                 </>
                             )}
-                            
+
                             {activeView === 'validation' && (
                                 <button
                                     className={`${styles.validateButton} ${isValidating ? styles.validating : ''}`}
@@ -209,7 +209,7 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     {isValidating ? 'Validating...' : 'Revalidate'}
                                 </button>
                             )}
-                            
+
                             {onClose && (
                                 <button
                                     className={styles.closeButton}
@@ -221,13 +221,13 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                         </div>
                     </div>
                 </div>
-                
+
                 <div className={styles.previewContent}>
                     {/* JSON View */}
                     {activeView === 'json' && (
                         <div className={styles.jsonView}>
                             <div className={styles.jsonStructure}>
-                                <div 
+                                <div
                                     className={styles.jsonSection}
                                     onClick={() => toggleSection('metadata')}
                                 >
@@ -236,7 +236,7 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     </span>
                                     <span className={styles.sectionKey}>Metadata</span>
                                 </div>
-                                
+
                                 {expandedSections.metadata && (
                                     <div className={styles.sectionContent}>
                                         <div className={styles.jsonProperty}>
@@ -251,8 +251,8 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                         )}
                                     </div>
                                 )}
-                                
-                                <div 
+
+                                <div
                                     className={styles.jsonSection}
                                     onClick={() => toggleSection('elements')}
                                 >
@@ -262,7 +262,7 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     <span className={styles.sectionKey}>elements</span>
                                     <span className={styles.sectionCount}>[{elements.length}]</span>
                                 </div>
-                                
+
                                 {expandedSections.elements && elements.map(element => (
                                     <div key={element.id} className={styles.jsonElement}>
                                         <div className={styles.jsonProperty}>
@@ -275,8 +275,8 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                         </div>
                                     </div>
                                 ))}
-                                
-                                <div 
+
+                                <div
                                     className={styles.jsonSection}
                                     onClick={() => toggleSection('connections')}
                                 >
@@ -286,11 +286,11 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     <span className={styles.sectionKey}>connections</span>
                                     <span className={styles.sectionCount}>[{connections.length}]</span>
                                 </div>
-                                
+
                                 {expandedSections.connections && connections.map(connection => {
                                     const source = getElementById(connection.sourceId);
                                     const target = getElementById(connection.targetId);
-                                    
+
                                     return (
                                         <div key={connection.id} className={styles.jsonConnection}>
                                             <div className={styles.jsonProperty}>
@@ -311,13 +311,13 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     );
                                 })}
                             </div>
-                            
+
                             <pre className={styles.jsonRaw}>
                                 {formattedJson}
                             </pre>
                         </div>
                     )}
-                    
+
                     {/* Visual Summary View */}
                     {activeView === 'visual' && (
                         <div className={styles.visualView}>
@@ -343,7 +343,7 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     <div className={styles.statLabel}>Conditions</div>
                                 </div>
                             </div>
-                            
+
                             {/* Flow diagram (simplified) */}
                             <div className={styles.flowDiagram}>
                                 <h4>Strategy Flow</h4>
@@ -356,23 +356,22 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                                 <div className={`${styles.flowNode} ${styles.triggerNode}`}>
                                                     🔔 {trigger.name}
                                                 </div>
-                                                
+
                                                 {/* Find connections from this trigger */}
                                                 {connections
                                                     .filter(c => c.sourceId === trigger.id)
                                                     .map(conn => {
                                                         const targetElement = getElementById(conn.targetId);
                                                         if (!targetElement) return null;
-                                                        
+
                                                         return (
                                                             <div key={conn.id} className={styles.flowConnection}>
                                                                 <div className={styles.flowArrow}>↓ {conn.label || ''}</div>
-                                                                <div className={`${styles.flowNode} ${
-                                                                    targetElement.type === 'condition' 
-                                                                        ? styles.conditionNode 
+                                                                <div className={`${styles.flowNode} ${targetElement.type === 'condition'
+                                                                        ? styles.conditionNode
                                                                         : styles.actionNode
-                                                                }`}>
-                                                                    {targetElement.type === 'condition' ? '❓' : '▶️'} 
+                                                                    }`}>
+                                                                    {targetElement.type === 'condition' ? '❓' : '▶️'}
                                                                     {targetElement.name}
                                                                 </div>
                                                             </div>
@@ -385,13 +384,12 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                             </div>
                         </div>
                     )}
-                    
+
                     {/* Validation View */}
                     {activeView === 'validation' && (
                         <div className={styles.validationView}>
-                            <div className={`${styles.validationStatus} ${
-                                validationResult.valid ? styles.validSuccess : styles.validError
-                            }`}>
+                            <div className={`${styles.validationStatus} ${validationResult.valid ? styles.validSuccess : styles.validError
+                                }`}>
                                 {validationResult.valid ? (
                                     <>
                                         <div className={styles.validIcon}>✓</div>
@@ -410,7 +408,7 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     </>
                                 )}
                             </div>
-                            
+
                             {!validationResult.valid && (
                                 <ul className={styles.errorList}>
                                     {validationResult.errors.map((error, index) => (
@@ -418,7 +416,7 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
                                     ))}
                                 </ul>
                             )}
-                            
+
                             {validationResult.valid && (
                                 <div className={styles.validationChecks}>
                                     <div className={styles.checkItem}>
@@ -446,7 +444,5 @@ const StrategyPreview: React.FC<StrategyPreviewProps> = ({
         </div>
     );
 };
-
-export default StrategyPreview;
 
 export default StrategyPreview;

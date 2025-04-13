@@ -87,7 +87,7 @@ const ConnectionLine: React.FC<ConnectionLineProps> = ({
         cursor: 'pointer',
         opacity: isSelected || isHovered ? 1 : 0,
         transition: 'opacity 0.2s',
-        pointerEvents: isSelected || isHovered ? 'all' : 'none',
+        pointerEvents: isSelected || isHovered ? 'auto' : 'none' as React.CSSProperties['pointerEvents'],
     };
 
     return (

@@ -42,6 +42,7 @@ export interface StrategyState {
   removeConnection: (id: string) => void;
   setSelectedElement: (id: string | null) => void;
   moveElement: (id: string, position: { x: number; y: number }) => void;
+  initializeStrategy: () => void;
   
   // Strategy operations
   clearStrategy: () => void;
@@ -50,7 +51,7 @@ export interface StrategyState {
 }
 
 // Create the store
-const useStrategyStore = create<StrategyState>((set, get) => ({
+const useStrategyStore = create<StrategyState>((set) => ({
   // Initial state
   strategyName: 'New Strategy',
   description: '',
@@ -102,6 +103,16 @@ const useStrategyStore = create<StrategyState>((set, get) => ({
     elements: state.elements.map(el => 
       el.id === id ? { ...el, position } : el
     )
+  })),
+  
+  // Add the initialize strategy method to reset the store state
+  initializeStrategy: () => set((state) => ({
+    strategyName: '',
+    description: '',
+    elements: [],
+    connections: [],
+    // Preserve methods and other required properties
+    // but reset all data fields to their initial values
   })),
   
   clearStrategy: () => set({

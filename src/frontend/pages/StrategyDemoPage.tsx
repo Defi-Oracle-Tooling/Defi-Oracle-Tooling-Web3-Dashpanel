@@ -1,61 +1,175 @@
-import React from 'react';
-import styles from '../styles/user.module.css';
-import StrategyBuilder from '../components/user/StrategyBuilder';
+import React, { useState, useEffect } from 'react';
+import useStrategyStore from '../store/strategyStore';
+import StrategyPreview from '../components/strategy/StrategyPreview';
+import styles from '../styles/demo.module.css';
 
-/**
- * Example page demonstrating the use of the StrategyBuilder component
- */
 const StrategyDemoPage: React.FC = () => {
-    return (
-        <div className={styles.pageContainer}>
-            <header className={styles.demoHeader}>
-                <h1>DeFi Strategy Builder Demo</h1>
-                <p>
-                    Create automated trading strategies by adding elements, connecting them,
-                    and configuring their parameters. Then preview and save your strategy.
-                </p>
-            </header>
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const {
+    initializeStrategy,
+    setStrategyName,
+    setDescription,
+    addElement,
+    addConnection
+  } = useStrategyStore();
 
-            <main className={styles.mainContent}>
-                {/* Strategy Builder Component */}
-                <StrategyBuilder />
+  // Initialize the strategy with demo data when the component mounts
+  useEffect(() => {
+    // Clear any existing strategy first
+    initializeStrategy();
 
-                {/* Usage Instructions */}
-                <section className={styles.instructionsSection}>
-                    <h2>How to Use the Strategy Builder</h2>
-                    <ol>
-                        <li>
-                            <strong>Add Elements</strong> - Use the buttons at the top to add triggers,
-                            conditions, and actions to your strategy.
-                        </li>
-                        <li>
-                            <strong>Position Elements</strong> - Drag elements around the canvas to arrange them.
-                        </li>
-                        <li>
-                            <strong>Create Connections</strong> - Click on the bottom handle of one element,
-                            then click on the top handle of another element to create a connection.
-                        </li>
-                        <li>
-                            <strong>Configure Elements</strong> - Click on an element to open its properties
-                            panel where you can adjust its parameters.
-                        </li>
-                        <li>
-                            <strong>Preview Strategy</strong> - Click "View JSON" to see the complete strategy
-                            structure in JSON format.
-                        </li>
-                        <li>
-                            <strong>Save Strategy</strong> - When your strategy is complete, give it a name
-                            and click "Save Strategy".
-                        </li>
-                    </ol>
-                    <p>
-                        <em>Note: This is a demonstration version. In a production environment,
-                            strategies would be saved to a database and could be executed on actual trading platforms.</em>
-                    </p>
-                </section>
-            </main>
+    // Set basic metadata
+    setStrategyName('DeFi Price Alert & Swap Strategy');
+    setDescription('Monitors asset price changes and executes swaps when thresholds are met');
+
+    // Add some elements (nodes)
+    const triggerId = addElement({
+      type: 'trigger',
+      name: 'Price Change Monitor',
+      description: 'Triggers when asset price changes by specified percentage',
+      parameters: {
+        asset: 'ETH',
+        percentage: 5,
+        direction: 'both',
+        interval: 60 // seconds
+      },
+      position: { x: 100, y: 150 }
+    });
+
+    const conditionId = addElement({
+      type: 'condition',
+      name: 'Balance Check',
+      description: 'Verifies sufficient balance before executing swap',
+      parameters: {
+        minBalance: 0.5,
+        asset: 'ETH'
+      },
+      position: { x: 400, y: 150 }
+    });
+
+    const actionId = addElement({
+      type: 'action',
+      name: 'Swap Assets',
+      description: 'Executes a token swap on specified DEX',
+      parameters: {
+        dex: 'Uniswap',
+        tokenIn: 'ETH',
+        tokenOut: 'USDC',
+        slippageTolerance: 0.5,
+        amount: 0.25
+      },
+      position: { x: 700, y: 150 }
+    });
+
+    // Connect the elements
+    addConnection({
+      sourceId: triggerId,
+      targetId: conditionId,
+      label: 'On threshold reached'
+    });
+
+    addConnection({
+      sourceId: conditionId,
+      targetId: actionId,
+      label: 'If sufficient balance'
+    });
+  }, []);
+
+  // Toggle the preview modal
+  const togglePreview = () => {
+    setIsPreviewOpen(!isPreviewOpen);
+  };
+
+  return (
+    <div className={styles.demoContainer}>
+      <header className={styles.demoHeader}>
+        <h1>Strategy Builder Demo</h1>
+        <p>This demo showcases how to use the StrategyPreview component to display your strategy configuration.</p>
+      </header>
+
+      <section className={styles.demoContent}>
+        <div className={styles.demoDescription}>
+          <h2>What is a DeFi Strategy?</h2>
+          <p>
+            A DeFi strategy is a sequence of automated actions triggered by specific events in the
+            blockchain ecosystem. These strategies allow users to execute complex operations like
+            swaps, loans, and position management without manual intervention.
+          </p>
+
+          <h3>Components of a Strategy:</h3>
+          <ul>
+            <li><strong>Triggers:</strong> Events that initiate the strategy (price changes, time intervals, etc.)</li>
+            <li><strong>Conditions:</strong> Logic gates that determine if the next steps should execute</li>
+            <li><strong>Actions:</strong> Operations performed on the blockchain (swaps, deposits, etc.)</li>
+            <li><strong>Connections:</strong> Define the flow between components</li>
+          </ul>
         </div>
-    );
+
+        <div className={styles.demoActions}>
+          <h3>Demo Strategy: Price-Based Asset Swap</h3>
+          <p>We've created a simple demo strategy that monitors ETH price and performs a swap when conditions are met.</p>
+
+          <button
+            className={styles.previewButton}
+            onClick={togglePreview}
+          >
+            View Strategy Preview
+          </button>
+
+          <p className={styles.demoHint}>
+            Click the button above to open the Strategy Preview component. Explore the different tabs:
+          </p>
+          <ul className={styles.featureList}>
+            <li><strong>JSON:</strong> View the raw strategy data</li>
+            <li><strong>Visual Summary:</strong> See a simplified representation of your strategy</li>
+            <li><strong>Validation:</strong> Check if your strategy meets all requirements for execution</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className={styles.demoInstructions}>
+        <h2>How to Use the StrategyPreview Component</h2>
+
+        <div className={styles.codeExample}>
+          <h3>Import and Render:</h3>
+          <pre>
+            {`import StrategyPreview from '../components/strategy/StrategyPreview';
+
+// In your component:
+const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+// Toggle function
+const togglePreview = () => setIsPreviewOpen(!isPreviewOpen);
+
+// In your JSX:
+<button onClick={togglePreview}>View Strategy</button>
+<StrategyPreview 
+  isOpen={isPreviewOpen} 
+  onClose={togglePreview} 
+/>`}
+          </pre>
+        </div>
+
+        <div className={styles.tipsList}>
+          <h3>Key Features:</h3>
+          <ul>
+            <li>View strategy as formatted JSON</li>
+            <li>Copy to clipboard with one click</li>
+            <li>Export as JSON or YAML files</li>
+            <li>Interactive visual summary</li>
+            <li>Strategy validation with detailed feedback</li>
+            <li>Expandable/collapsible sections for better readability</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Render the StrategyPreview component */}
+      <StrategyPreview
+        isOpen={isPreviewOpen}
+        onClose={togglePreview}
+      />
+    </div>
+  );
 };
 
 export default StrategyDemoPage;
