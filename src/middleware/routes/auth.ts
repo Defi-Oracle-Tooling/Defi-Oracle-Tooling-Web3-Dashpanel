@@ -2,18 +2,18 @@ import { Router, Request, Response } from "express";
 
 const router = Router();
 
-/**
- * Dummy authentication endpoint.
- * Replace with real Tatum.io authentication and session management.
- */
-router.post("/", (req: Request, res: Response) => {
+// Dummy authentication endpoint
+router.post("/login", (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  if (username && password) {
-    // Implement authentication logic here
-    res.json({ success: true, token: "dummy-token" });
+  // TODO: Replace with actual authentication logic
+  // - Hash and compare password securely (e.g., using bcrypt)
+  // - Generate a session token (e.g., JWT)
+  // - Potentially integrate with Tatum.io for user verification if applicable
+  if (username === "admin" && password === "password") {
+    res.json({ message: "Login successful (dummy)", token: "dummy-jwt-token" });
   } else {
-    res.status(400).json({ success: false, error: "Missing credentials" });
+    res.status(401).json({ message: "Invalid credentials (dummy)" });
   }
 });
 

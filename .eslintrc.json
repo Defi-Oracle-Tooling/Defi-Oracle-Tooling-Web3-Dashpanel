@@ -1,0 +1,35 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint",
+        "prettier"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": "warn", // Show Prettier issues as warnings
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "argsIgnorePattern": "^_"
+            }
+        ], // Warn about unused vars, allowing underscores
+        "@typescript-eslint/explicit-module-boundary-types": "off", // Allow inferred return types
+        "no-console": "warn" // Warn about console.log statements
+    },
+    "ignorePatterns": [
+        "node_modules/",
+        "dist/",
+        "build/",
+        "coverage/",
+        "*.md",
+        "*.json",
+        "*.yaml",
+        "*.yml",
+        "submodules/"
+    ] // Ignore build outputs, configs, docs, and submodules for now
+}

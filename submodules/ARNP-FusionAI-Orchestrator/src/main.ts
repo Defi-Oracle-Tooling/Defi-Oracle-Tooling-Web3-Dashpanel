@@ -10,5 +10,7 @@ app.get("/platform", (req, res) => {
 });
 
 app.listen(PORT, () => {
+  // console.log(`Absolute Realms Nexgen Platform service running on port ${PORT}`);
+  // Replace with actual logger if available, otherwise keep console for submodule
   console.log(`Absolute Realms Nexgen Platform service running on port ${PORT}`);
 });

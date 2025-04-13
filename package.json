@@ -6,7 +6,10 @@
   "scripts": {
     "build": "bash scripts/build.sh",
     "test": "bash scripts/test.sh",
-    "dev": "ts-node-dev --respawn src/middleware/server.ts"
+    "dev": "ts-node-dev --respawn src/middleware/server.ts",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "lint:fix": "eslint --fix src/**/*.{ts,tsx}",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\" \"*.{js,json,md}\""
   },
   "dependencies": {
     "axios": "^1.8.4",
@@ -14,7 +17,8 @@
     "express": "^5.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.5.0"
+    "react-router-dom": "^7.5.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -22,11 +26,19 @@
     "@types/react": "^19.1.1",
     "@types/react-dom": "^19.1.2",
     "@types/supertest": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
     "supertest": "^7.1.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.1"
+    "typescript-eslint": "^8.29.1",
+    "vitest": "^1.6.0" // Updated to latest v1.x
   },
   "license": "MIT",
   "pnpm": {

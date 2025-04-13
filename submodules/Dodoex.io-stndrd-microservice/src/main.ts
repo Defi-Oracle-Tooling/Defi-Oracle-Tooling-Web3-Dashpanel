@@ -10,5 +10,7 @@ app.get("/microservice", (req, res) => {
 });
 
 app.listen(PORT, () => {
+    // console.log(`Dodoex.io Standard Microservice running on port ${PORT}`);
+    // Replace with actual logger if available, otherwise keep console for submodule
     console.log(`Dodoex.io Standard Microservice running on port ${PORT}`);
 });

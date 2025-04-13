@@ -3,12 +3,12 @@
 generate_backend.py
 
 This script generates a complete backend project scaffolding for a FastAPI backend
-that integrates Tatum.io services and blockchain connectivity
-(e.g., Hyperledger Besu). It is designed to serve as the backend replacement for the
-TypeScript-React frontend in your mono-repository.
+that integrates Tatum.io services and blockchain connectivity (e.g., Hyperledger
+Besu). It is designed to serve as the backend replacement for the TypeScript-React
+frontend in your mono-repository.
 
-The generated project will reside in a "backend" directory at the project root with
-the following structure:
+The generated project will reside in a "backend" directory at the project root
+with the following structure:
 
 backend/
 ├── app/
@@ -17,13 +17,13 @@ backend/
 │   ├── config.py           # Configuration loader using python-dotenv.
 │   ├── routers/
 │   │   ├── __init__.py
-│   │   ├── virtual_accounts.py  # REST API endpoints for virtual account operations.
-│   │   ├── webhooks.py          # Webhook endpoints for receiving Tatum or blockchain events.
-│   │   └── sockets.py           # WebSocket endpoints for bidirectional communication.
+│   │   ├── virtual_accounts.py  # REST API endpoints for virtual accounts.
+│   │   ├── webhooks.py          # Webhook endpoints for Tatum/blockchain events.
+│   │   └── sockets.py           # WebSocket endpoints for bidirectional comms.
 │   ├── services/
 │   │   ├── __init__.py
 │   │   ├── tatum_service.py     # Service functions to call Tatum.io APIs.
-│   │   └── besu_service.py      # Service functions for blockchain integration (web3.py).
+│   │   └── besu_service.py      # Service functions for blockchain integration.
 │   └── models/
 │       ├── __init__.py
 │       └── schemas.py           # Pydantic schemas for data validation.
@@ -84,12 +84,18 @@ def generate_structure() -> None:
 
         app = FastAPI(title="Tatum.io & Besu Integration Backend")
 
-        # Register routers for REST API endpoints, webhooks, and WebSocket endpoints
+        # Register routers for REST API, webhooks, and WebSocket endpoints
         app.include_router(
-            virtual_accounts.router, prefix="/api/va", tags=["Virtual Accounts"]
+            virtual_accounts.router,
+            prefix="/api/va",
+            tags=["Virtual Accounts"]
         )
-        app.include_router(webhooks.router, prefix="/webhooks", tags=["Webhooks"])
-        app.include_router(sockets.router, prefix="/ws", tags=["WebSocket"])
+        app.include_router(
+            webhooks.router, prefix="/webhooks", tags=["Webhooks"]
+        )
+        app.include_router(
+            sockets.router, prefix="/ws", tags=["WebSocket"]
+        )
 
         @app.get("/")
         async def root():
@@ -97,7 +103,9 @@ def generate_structure() -> None:
 
         if __name__ == "__main__":
             import uvicorn
-            uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+            uvicorn.run(
+                "app.main:app", host="0.0.0.0", port=8000, reload=True
+            )
     """
     )
     write_file(BACKEND_DIR / "app" / "main.py", main_py)
@@ -108,17 +116,25 @@ def generate_structure() -> None:
         import os
         from dotenv import load_dotenv
 
-        load_dotenv()  # Load environment variables from a .env file if available
+        load_dotenv()  # Load environment variables from a .env file
 
         class Settings:
             # Tatum configuration
             TATUM_API_KEY = os.getenv("TATUM_API_KEY", "YOUR_TATUM_API_KEY")
-            TATUM_API_URL = os.getenv("TATUM_API_URL", "https://api.tatum.io/v3")
+            TATUM_API_URL = os.getenv(
+                "TATUM_API_URL", "https://api.tatum.io/v3"
+            )
             # Blockchain configuration
-            BESU_RPC_URL = os.getenv("BESU_RPC_URL", "https://your-besu-node.example.com")
+            BESU_RPC_URL = os.getenv(
+                "BESU_RPC_URL", "https://your-besu-node.example.com"
+            )
             CHAIN_ID = int(os.getenv("CHAIN_ID", "138"))
-            MASTER_EXCHANGE_ADDRESS = os.getenv("MASTER_EXCHANGE_ADDRESS", "0xYourMasterExchangeAddress")
-            MASTER_PRIVATE_KEY = os.getenv("MASTER_PRIVATE_KEY", "YOUR_PRIVATE_KEY")
+            MASTER_EXCHANGE_ADDRESS = os.getenv(
+                "MASTER_EXCHANGE_ADDRESS", "0xYourMasterExchangeAddress"
+            )
+            MASTER_PRIVATE_KEY = os.getenv(
+                "MASTER_PRIVATE_KEY", "YOUR_PRIVATE_KEY"
+            )
 
         settings = Settings()
     """
@@ -140,7 +156,9 @@ def generate_structure() -> None:
                 data = get_virtual_account_data(user_id)
                 return data
             except Exception as e:
-                raise HTTPException(status_code=500, detail=str(e))
+                raise HTTPException(
+                    status_code=500, detail=f"Error fetching balance: {e}"
+                )
     """
     )
     write_file(
@@ -157,8 +175,21 @@ def generate_structure() -> None:
         @router.post("/tatum")
         async def tatum_webhook(request: Request):
             payload = await request.json()
-            # TODO: Process webhook payload from Tatum.io or blockchain events.
-            return {"status": "received", "data": payload}
+            # TODO: Implement robust processing for Tatum.io webhook payloads.
+            # This might involve:
+            # - Verifying the webhook signature (if provided by Tatum).
+            # - Identifying the event type (e.g., incoming payment, account update).
+            # - Updating internal database records based on the event.
+            # - Triggering further actions (e.g., notifying users via WebSocket).
+            print(f"Received webhook payload: {payload}")
+            # Example: Check for a specific event type
+            # if payload.get('type') == 'INCOMING_PAYMENT':
+            #     account_id = payload.get('accountId')
+            #     amount = payload.get('amount')
+            #     print(f"Received payment of {amount} for account {account_id}")
+            #     # Add logic to credit the user's account in your system
+
+            return {"status": "received"}
     """
     )
     write_file(BACKEND_DIR / "app" / "routers" / "webhooks.py", webhooks_router)
@@ -166,13 +197,15 @@ def generate_structure() -> None:
     # Create WebSocket endpoints in routers/sockets.py.
     sockets_router = textwrap.dedent(
         """\
-        from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+        from fastapi import (
+            APIRouter, WebSocket, WebSocketDisconnect
+        )
 
         router = APIRouter()
 
         class ConnectionManager:
             def __init__(self):
-                self.active_connections = []
+                self.active_connections: list[WebSocket] = []
 
             async def connect(self, websocket: WebSocket):
                 await websocket.accept()
@@ -194,9 +227,10 @@ def generate_structure() -> None:
                 while True:
                     data = await websocket.receive_text()
                     # For demonstration: echo back the message.
-                    await manager.broadcast(f"Echo: {data}")
+                    await manager.broadcast(f"User message: {data}")
             except WebSocketDisconnect:
                 manager.disconnect(websocket)
+                await manager.broadcast("A user left the chat")
     """
     )
     write_file(BACKEND_DIR / "app" / "routers" / "sockets.py", sockets_router)
@@ -211,12 +245,18 @@ def generate_structure() -> None:
             # Request virtual account details from Tatum.io.
             url = f"{settings.TATUM_API_URL}/ledger/account/{user_id}"
             headers = {"x-api-key": settings.TATUM_API_KEY}
-            response = requests.get(url, headers=headers)
-            if response.status_code != 200:
-                raise Exception(f"Tatum API error: {response.text}")
-            return response.json()
+            try:
+                response = requests.get(url, headers=headers, timeout=10)
+                response.raise_for_status()  # Raise HTTPError for bad responses
+                return response.json()
+            except requests.exceptions.RequestException as e:
+                # Handle connection errors, timeouts, etc.
+                raise Exception(f"Tatum API request failed: {e}")
+            except Exception as e:
+                # Handle other potential errors like JSON decoding
+                raise Exception(f"An error occurred: {e}")
 
-        # Additional functions for crediting or debiting the virtual account can be added.
+        # Additional functions for crediting or debiting can be added.
     """
     )
     write_file(BACKEND_DIR / "app" / "services" / "tatum_service.py", tatum_service)
@@ -232,16 +272,35 @@ def generate_structure() -> None:
 
         def process_withdrawal(withdrawal_address: str, amount: float) -> str:
             # Create an on-chain withdrawal transaction.
-            tx = {
-                'from': settings.MASTER_EXCHANGE_ADDRESS,
-                'to': withdrawal_address,
-                'value': web3.toWei(amount, 'ether'),
-                'chainId': settings.CHAIN_ID,
-                # Optionally specify gasPrice and gas limit here.
-            }
-            signed_tx = web3.eth.account.sign_transaction(tx, settings.MASTER_PRIVATE_KEY)
-            tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-            return web3.toHex(tx_hash)
+            if not web3.is_address(withdrawal_address):
+                raise ValueError("Invalid withdrawal address provided.")
+            if amount <= 0:
+                raise ValueError("Withdrawal amount must be positive.")
+
+            try:
+                nonce = web3.eth.get_transaction_count(
+                    settings.MASTER_EXCHANGE_ADDRESS
+                )
+                tx = {
+                    'from': settings.MASTER_EXCHANGE_ADDRESS,
+                    'to': withdrawal_address,
+                    'value': web3.to_wei(amount, 'ether'),
+                    'nonce': nonce,
+                    'gas': 21000,  # Standard gas limit for ETH transfer
+                    'gasPrice': web3.eth.gas_price,
+                    'chainId': settings.CHAIN_ID,
+                }
+                signed_tx = web3.eth.account.sign_transaction(
+                    tx, settings.MASTER_PRIVATE_KEY
+                )
+                tx_hash = web3.eth.send_raw_transaction(
+                    signed_tx.rawTransaction
+                )
+                return web3.to_hex(tx_hash)
+            except Exception as e:
+                # Log the error details for debugging
+                print(f"Error processing withdrawal: {e}")
+                raise Exception("Failed to process withdrawal.") from e
     """
     )
     write_file(BACKEND_DIR / "app" / "services" / "besu_service.py", besu_service)
@@ -278,8 +337,8 @@ def generate_structure() -> None:
         """\
         # Tatum.io & Besu Integration Backend
 
-        This backend service is auto-generated to interact with Tatum.io APIs and a Hyperledger Besu
-        blockchain network (or other Elemental Imperium EVM chains). It provides the following:
+        This backend service interacts with Tatum.io APIs and a Hyperledger Besu
+        blockchain network (or other EVM chains). It provides:
 
          - REST API endpoints for virtual account operations.
          - Webhook endpoints for asynchronous event processing.
@@ -287,38 +346,41 @@ def generate_structure() -> None:
 
         ## Getting Started
 
-        1. Install dependencies:
-           ```
-           pip install -r requirements.txt
-           ```
+        1.  **Install dependencies:**
+            ```bash
+            pip install -r requirements.txt
+            ```
 
-        2. Configure environment variables:
-           Create a `.env` file in the backend root (where `config.py` is located) with:
-           ```
-           TATUM_API_KEY=your_tatum_api_key
-           TATUM_API_URL=https://api.tatum.io/v3
-           BESU_RPC_URL=https://your-besu-node.example.com
-           CHAIN_ID=138
-           MASTER_EXCHANGE_ADDRESS=0xYourMasterExchangeAddress
-           MASTER_PRIVATE_KEY=your_master_private_key
-           ```
+        2.  **Configure environment variables:**
+            Create a `.env` file in the `backend/` root with:
+            ```dotenv
+            TATUM_API_KEY=your_tatum_api_key
+            TATUM_API_URL=https://api.tatum.io/v3
+            BESU_RPC_URL=https://your-besu-node.example.com
+            CHAIN_ID=138 # Example chain ID
+            MASTER_EXCHANGE_ADDRESS=0xYourMasterExchangeAddress
+            MASTER_PRIVATE_KEY=your_master_private_key
+            ```
+            Replace placeholders with your actual credentials and URLs.
 
-        3. Run the server:
-           ```
-           uvicorn app.main:app --reload
-           ```
+        3.  **Run the server:**
+            ```bash
+            uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+            ```
+            The server will be accessible at `http://localhost:8000`.
 
         ## Integration with Frontend
 
-        This backend provides API, Webhook, and WebSocket endpoints that your TypeScript-React frontend
-        can communicate with. It also integrates Tatum.io services, including beta endpoints, and supports
-        connectivity to multiple Elemental Imperium EVM blockchains via parameterized configuration.
+        This backend provides API, Webhook, and WebSocket endpoints for your
+        TypeScript-React frontend. It integrates Tatum.io services and supports
+        connectivity to multiple EVM blockchains via configuration.
     """
     )
     write_file(BACKEND_DIR / "README.md", readme)
 
 
 def main() -> None:
+    """Runs the backend project scaffolding generation process."""
     print(f"Generating backend project scaffolding in: {BACKEND_DIR}")
     generate_structure()
     print("Backend project scaffolding generated successfully.")

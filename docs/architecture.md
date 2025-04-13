@@ -56,6 +56,8 @@ The DeFi Oracle Tooling Web3 Dashpanel is a comprehensive monitoring and managem
 
 ## 4. Technical Stack
 
+**Note:** The stack described below represents the planned or full architecture. The current implementation in the root `package.json` may only reflect a subset of these technologies, particularly for the backend which currently uses Express.
+
 ### 4.1 Frontend
 - React.js / Next.js
 - TypeScript

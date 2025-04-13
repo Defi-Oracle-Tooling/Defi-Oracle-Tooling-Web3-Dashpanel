@@ -10,5 +10,7 @@ app.get("/integration", (req, res) => {
 });
 
 app.listen(PORT, () => {
+    // console.log(`SolaceNet Integration service running on port ${PORT}`);
+    // Replace with actual logger if available, otherwise keep console for submodule
     console.log(`SolaceNet Integration service running on port ${PORT}`);
 });
