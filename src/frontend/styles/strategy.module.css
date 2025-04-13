@@ -1,0 +1,354 @@
+/* Strategy Builder Styles */
+
+/* Canvas area for building strategies */
+.builderCanvas {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+/* Toolbar for holding available elements */
+.elementsToolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+/* Wrapper for the main content section */
+.strategySection {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* Element Styles */
+.draggableElement {
+    position: absolute;
+    width: 200px;
+    min-height: 100px;
+    padding: 0;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    cursor: move;
+    transition: box-shadow 0.2s ease;
+    background-color: white;
+    user-select: none;
+    z-index: 1;
+}
+
+.draggableElement:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.draggableElement.selected {
+    box-shadow: 0 0 0 2px #4c84ff, 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+
+/* Element type styling */
+.triggerElement .elementHeader {
+    background-color: #ff6b6b;
+}
+
+.actionElement .elementHeader {
+    background-color: #4ecdc4;
+}
+
+.conditionElement .elementHeader {
+    background-color: #ffd166;
+}
+
+.elementHeader {
+    padding: 10px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    font-weight: 600;
+    color: white;
+}
+
+.elementBody {
+    padding: 10px;
+}
+
+/* Tool button styles */
+.elementButton {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    margin-right: 10px;
+}
+
+.triggerButton {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.actionButton {
+    background-color: #4ecdc4;
+    color: white;
+}
+
+.conditionButton {
+    background-color: #ffd166;
+    color: white;
+}
+
+.elementButton:hover {
+    filter: brightness(1.1);
+}
+
+/* Strategy controls */
+.strategyControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.strategyName {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.controlButtons {
+    display: flex;
+    gap: 10px;
+}
+
+.saveButton,
+.runButton,
+.clearButton {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    color: white;
+}
+
+.saveButton {
+    background-color: #3498db;
+}
+
+.runButton {
+    background-color: #2ecc71;
+}
+
+.clearButton {
+    background-color: #e74c3c;
+}
+
+.saveButton:hover,
+.runButton:hover,
+.clearButton:hover {
+    filter: brightness(1.1);
+}
+
+/* Properties panel for editing selected element */
+.propertiesPanel {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.propertiesTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formLabel {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.formTextarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Connection line styles */
+.connectionLine {
+    stroke: #6c757d;
+    stroke-width: 2;
+    fill: none;
+}
+
+.selectedConnection {
+    stroke: #4c84ff;
+    stroke-width: 3;
+}
+
+.connectionLabel {
+    pointer-events: none;
+}
+
+/* Properties panel updates */
+.parametersTitle {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #dee2e6;
+}
+
+.updateButton {
+    padding: 8px 16px;
+    background-color: #4c84ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.updateButton:hover {
+    background-color: #3a6fd8;
+}
+
+.formCheckbox {
+    margin-left: 10px;
+}
+
+/* JSON Preview modal styles */
+.previewOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.previewContainer {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.previewHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.previewHeader h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.previewControls {
+    display: flex;
+    gap: 10px;
+}
+
+.copyButton,
+.closeButton {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.copyButton {
+    background-color: #28a745;
+    color: white;
+}
+
+.closeButton {
+    background-color: #6c757d;
+    color: white;
+}
+
+.jsonPreview {
+    padding: 20px;
+    overflow: auto;
+    background-color: #f8f9fa;
+    border-radius: 0 0 8px 8px;
+    color: #212529;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    max-height: 60vh;
+    margin: 0;
+}
+
+/* Connection handles for elements */
+.elementHandles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.handle {
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    border: 2px solid #6c757d;
+    border-radius: 50%;
+    position: absolute;
+    pointer-events: all;
+    cursor: crosshair;
+}
+
+.sourceHandle {
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.targetHandle {
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}

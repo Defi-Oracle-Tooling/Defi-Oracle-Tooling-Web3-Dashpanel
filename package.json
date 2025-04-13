@@ -52,7 +52,9 @@
     "src/middleware"
   ],
   "pnpm": {
-    "onlyBuiltDependencies": []
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "license": "MIT"
 }
