@@ -6,7 +6,9 @@
   "scripts": {
     "build": "bash scripts/build.sh",
     "test": "bash scripts/test.sh",
-    "dev": "ts-node-dev --respawn src/middleware/server.ts",
+    "dev": "concurrently \"pnpm run middleware\" \"pnpm run frontend\"",
+    "middleware": "pnpm --filter middleware run dev",
+    "frontend": "pnpm --filter frontend run dev",
     "lint": "eslint src/**/*.{ts,tsx}",
     "lint:fix": "eslint --fix src/**/*.{ts,tsx}",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"*.{js,json,md}\""
@@ -40,12 +42,15 @@
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.1",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.0",
+    "concurrently": "^8.0.1"
   },
-  "license": "MIT",
+  "workspaces": [
+    "src/frontend",
+    "src/middleware"
+  ],
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
-  }
+    "onlyBuiltDependencies": []
+  },
+  "license": "MIT"
 }

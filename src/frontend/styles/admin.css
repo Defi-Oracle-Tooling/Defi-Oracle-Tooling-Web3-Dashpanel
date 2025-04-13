@@ -1,22 +1,23 @@
-body {
+/* Styles specific to the Admin Dashboard page */
+
+/* Use a class or ID selector if these styles should only apply within the AdminPage component */
+.admin-page-container body,
+/* Example: Assuming AdminPage has a container div with this class */
+#root>div>div
+
+/* Or target more specifically if structure is known */
+  {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
-  margin: 0;
+  /* margin and padding might be better handled globally or on specific elements */
+}
+
+.admin-page-container main {
+  margin-top: 20px;
   padding: 20px;
+  /* Add padding to main content area */
 }
 
-h1 {
+.admin-page-container h1 {
   color: #333;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-ul li {
-  background: #e0e0e0;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
 }

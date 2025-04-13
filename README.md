@@ -47,3 +47,54 @@ pnpm test
 ```bash
 pnpm run build
 ```
+
+## Mock Data for Testing
+
+If no connection is found, you can use mock data to test the application. This ensures that the application can be tested without relying on live connections or external services.
+
+### Steps to Use Mock Data
+
+1. **Backend Mock Data**:
+   - Create mock data files in the `backend/app/models/mock_data/` directory.
+   - Example:
+     ```python
+     # backend/app/models/mock_data/sample_data.py
+     MOCK_VIRTUAL_ACCOUNTS = [
+         {"id": "1", "balance": 100.0, "currency": "USD"},
+         {"id": "2", "balance": 200.0, "currency": "EUR"},
+     ]
+     ```
+   - Update the service functions to use mock data when no connection is available.
+
+2. **Frontend Mock Data**:
+   - Add mock data in the `src/frontend/utils/mockData.ts` file.
+   - Example:
+     ```typescript
+     export const MOCK_USER_DATA = [
+         { id: "1", name: "John Doe", balance: 100 },
+         { id: "2", name: "Jane Smith", balance: 200 },
+     ];
+     ```
+   - Use this data in components when testing without a backend connection.
+
+3. **Middleware Mock Data**:
+   - Add mock responses in the `src/middleware/mockResponses/` directory.
+   - Example:
+     ```typescript
+     // src/middleware/mockResponses/sampleResponse.ts
+     export const MOCK_RESPONSE = {
+         status: "success",
+         data: [
+             { id: "1", value: "Mock Value 1" },
+             { id: "2", value: "Mock Value 2" },
+         ],
+     };
+     ```
+   - Update middleware routes to return mock responses when no connection is available.
+
+4. **Testing with Mock Data**:
+   - Ensure that the application can switch between live data and mock data using environment variables or configuration settings.
+   - Example:
+     ```bash
+     USE_MOCK_DATA=true pnpm run dev
+     ```

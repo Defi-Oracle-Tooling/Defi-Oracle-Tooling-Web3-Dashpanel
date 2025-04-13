@@ -1,0 +1,12 @@
+react
+react-dom
+express
+typescript
+eslint
+vitest
+winston
+helmet
+vite
+@typescript-eslint/eslint-plugin
+@typescript-eslint/parser
+typescript-eslint

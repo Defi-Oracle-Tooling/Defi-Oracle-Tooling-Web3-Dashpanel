@@ -1,24 +1,20 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import '../styles/common.css';
+import '../styles/user.css';
 
-const UserDashboard = () => (
+
+const UserPage: React.FC = () => (
   <div>
-    <h1>User Dashboard</h1>
-    <p>Build strategies, monitor transactions, and view recommendations.</p>
-    <ul>
-      <li>Strategy Builder</li>
-      <li>Transaction Monitoring</li>
-      <li>AI Recommendations</li>
-    </ul>
+    <Header />
+    <main>
+      <h1>User Dashboard</h1>
+      <p>Build strategies, monitor transactions, and view recommendations.</p>
+      {/* Implement drag-and-drop strategy builder and real-time charts here */}
+    </main>
+    <Footer />
   </div>
 );
 
-const container = document.getElementById("user-root");
-if (container) {
-  const root = createRoot(container);
-  root.render(<UserDashboard />);
-} else {
-  console.error("Failed to find the root element 'user-root'");
-}
-
-export default UserDashboard;
+export default UserPage;

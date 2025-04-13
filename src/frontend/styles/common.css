@@ -1,9 +1,28 @@
-/* Shared styles for header, footer, and other common components */
-header, footer {
+/* Global styles for header, footer, and other shared components */
+
+/* Apply some base styles to the body or root element for consistency */
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Ensure footer stays at bottom */
+}
+
+main {
+  flex-grow: 1;
+  /* Allow main content to take up available space */
+}
+
+header,
+footer {
   background-color: #333;
   color: #fff;
-  padding: 10px 20px; /* Added horizontal padding */
-  text-align: center; /* Center align header/footer content */
+  padding: 10px 20px;
+  /* Use padding from previous version */
+  /* text-align: center; /* Removed center alignment, can be added if preferred */
 }
 
 header h1 {
@@ -26,5 +45,13 @@ nav a:hover {
 }
 
 footer {
-  margin-top: auto; /* Push footer to the bottom */
+  margin-top: auto;
+  /* Keep footer pushed to the bottom */
+  text-align: center;
+  /* Center footer text */
+}
+
+footer p {
+  margin: 0;
+  /* Remove default paragraph margin */
 }

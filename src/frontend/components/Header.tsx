@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Added import
-import '../styles/common.css';
+import { Link } from 'react-router-dom';
+import '../styles/common.css'; // Keep common styles import
 
-const Header = () => (
+const Header: React.FC = () => ( // Ensure component name matches convention
   <header>
     <h1>DeFi Oracle Dashboard</h1>
     <nav>
-      <Link to="/admin">Admin</Link> | <Link to="/user">User</Link>
+      {/* Use Link component for SPA navigation */}
+      <Link to="/admin">Admin Panel</Link> | <Link to="/user">User Panel</Link>
     </nav>
   </header>
 );

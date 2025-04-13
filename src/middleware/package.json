@@ -1,0 +1,11 @@
+{
+    "name": "middleware",
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "ts-node-dev server.ts"
+    },
+    "dependencies": {
+        "express": "^5.1.0",
+        "ts-node-dev": "^2.0.0"
+    }
+}
