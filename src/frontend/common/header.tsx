@@ -5,7 +5,7 @@ import {
   Routes,
   Link
 } from "react-router-dom";
-import { AdminDashboard } from "../admin/admin";
+import AdminDashboard from "../admin/admin";
 import UserDashboard from "../user/user";
 
 const Header = () => (
