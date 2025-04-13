@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet"; // Import helmet
 import authRouter from "./routes/auth";
 import tatumIntegration from "./integrations/tatum";
 import dodoexIntegration from "./integrations/dodoex";
@@ -12,6 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use(helmet()); // Use helmet for security headers
 app.use(express.json());
 
 // Routes

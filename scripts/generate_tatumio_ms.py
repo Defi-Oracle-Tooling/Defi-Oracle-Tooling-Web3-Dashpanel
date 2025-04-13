@@ -2,10 +2,10 @@
 """
 generate_backend.py
 
-This script generates a complete backend project scaffolding for a FastAPI backend
-that integrates Tatum.io services and blockchain connectivity (e.g., Hyperledger
-Besu). It is designed to serve as the backend replacement for the TypeScript-React
-frontend in your mono-repository.
+This script generates a complete backend project scaffolding for a FastAPI
+backend that integrates Tatum.io services and blockchain connectivity (e.g.,
+Hyperledger Besu). It is designed to serve as the backend replacement for the
+TypeScript-React frontend in your mono-repository.
 
 The generated project will reside in a "backend" directory at the project root
 with the following structure:
@@ -18,12 +18,12 @@ backend/
 │   ├── routers/
 │   │   ├── __init__.py
 │   │   ├── virtual_accounts.py  # REST API endpoints for virtual accounts.
-│   │   ├── webhooks.py          # Webhook endpoints for Tatum/blockchain events.
+│   │   ├── webhooks.py          # Endpoints for Tatum/blockchain webhooks.
 │   │   └── sockets.py           # WebSocket endpoints for bidirectional comms.
 │   ├── services/
 │   │   ├── __init__.py
 │   │   ├── tatum_service.py     # Service functions to call Tatum.io APIs.
-│   │   └── besu_service.py      # Service functions for blockchain integration.
+│   │   └── besu_service.py     # Service functions for blockchain integration.
 │   └── models/
 │       ├── __init__.py
 │       └── schemas.py           # Pydantic schemas for data validation.
@@ -110,7 +110,8 @@ def generate_structure() -> None:
     )
     write_file(BACKEND_DIR / "app" / "main.py", main_py)
 
-    # Create a config.py file to load environment variables using python-dotenv.
+    # Create a config.py file to load environment variables
+    # using python-dotenv.
     config_py = textwrap.dedent(
         """\
         import os
@@ -141,7 +142,8 @@ def generate_structure() -> None:
     )
     write_file(BACKEND_DIR / "app" / "config.py", config_py)
 
-    # Create REST API endpoints for virtual accounts in routers/virtual_accounts.py.
+    # Create REST API endpoints for virtual accounts in
+    # routers/virtual_accounts.py.
     virtual_accounts_router = textwrap.dedent(
         """\
         from fastapi import APIRouter, HTTPException
@@ -180,7 +182,7 @@ def generate_structure() -> None:
             # - Verifying the webhook signature (if provided by Tatum).
             # - Identifying the event type (e.g., incoming payment, account update).
             # - Updating internal database records based on the event.
-            # - Triggering further actions (e.g., notifying users via WebSocket).
+            # - Triggering actions (e.g., notifying users via WebSocket).
             print(f"Received webhook payload: {payload}")
             # Example: Check for a specific event type
             # if payload.get('type') == 'INCOMING_PAYMENT':
@@ -246,8 +248,11 @@ def generate_structure() -> None:
             url = f"{settings.TATUM_API_URL}/ledger/account/{user_id}"
             headers = {"x-api-key": settings.TATUM_API_KEY}
             try:
-                response = requests.get(url, headers=headers, timeout=10)
-                response.raise_for_status()  # Raise HTTPError for bad responses
+                response = requests.get(
+                    url, headers=headers, timeout=10
+                )
+                # Raise HTTPError for bad responses
+                response.raise_for_status()
                 return response.json()
             except requests.exceptions.RequestException as e:
                 # Handle connection errors, timeouts, etc.
@@ -372,8 +377,8 @@ def generate_structure() -> None:
         ## Integration with Frontend
 
         This backend provides API, Webhook, and WebSocket endpoints for your
-        TypeScript-React frontend. It integrates Tatum.io services and supports
-        connectivity to multiple EVM blockchains via configuration.
+        TypeScript-React frontend. It integrates Tatum.io services and 
+        supports connectivity to multiple EVM blockchains via configuration.
     """
     )
     write_file(BACKEND_DIR / "README.md", readme)

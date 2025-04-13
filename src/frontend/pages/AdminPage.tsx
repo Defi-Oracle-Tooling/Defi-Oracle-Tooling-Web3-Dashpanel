@@ -1,5 +1,10 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { formatDate } from '../utils/utilities'; // Fixed import name
+import '../styles/common.css';
+import '../styles/admin.css';
 
 const AdminDashboard = () => (
   <div>
