@@ -22,8 +22,14 @@ const StrategyDemoPage: React.FC = () => {
     setStrategyName('DeFi Price Alert & Swap Strategy');
     setDescription('Monitors asset price changes and executes swaps when thresholds are met');
 
+    // Create IDs first
+    const triggerId = 'trigger-' + Math.random().toString(36).substr(2, 9);
+    const conditionId = 'condition-' + Math.random().toString(36).substr(2, 9);
+    const actionId = 'action-' + Math.random().toString(36).substr(2, 9);
+
     // Add some elements (nodes)
-    const triggerId = addElement({
+    addElement({
+      id: triggerId,
       type: 'trigger',
       name: 'Price Change Monitor',
       description: 'Triggers when asset price changes by specified percentage',
@@ -36,7 +42,8 @@ const StrategyDemoPage: React.FC = () => {
       position: { x: 100, y: 150 }
     });
 
-    const conditionId = addElement({
+    addElement({
+      id: conditionId,
       type: 'condition',
       name: 'Balance Check',
       description: 'Verifies sufficient balance before executing swap',
@@ -47,7 +54,8 @@ const StrategyDemoPage: React.FC = () => {
       position: { x: 400, y: 150 }
     });
 
-    const actionId = addElement({
+    addElement({
+      id: actionId,
       type: 'action',
       name: 'Swap Assets',
       description: 'Executes a token swap on specified DEX',
@@ -63,12 +71,14 @@ const StrategyDemoPage: React.FC = () => {
 
     // Connect the elements
     addConnection({
+      id: 'connection-' + Math.random().toString(36).substr(2, 9),
       sourceId: triggerId,
       targetId: conditionId,
       label: 'On threshold reached'
     });
 
     addConnection({
+      id: 'connection-' + Math.random().toString(36).substr(2, 9),
       sourceId: conditionId,
       targetId: actionId,
       label: 'If sufficient balance'
