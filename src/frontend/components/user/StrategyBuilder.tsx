@@ -214,51 +214,6 @@ const StrategyBuilder: React.FC = () => {
 
             {/* Strategy canvas */}
             <div className={styles.builderCanvas} onClick={() => setSelectedElement(null)}>
-                {/* SVG layer for connections */}
-                <svg
-                    ref={svgRef}
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        pointerEvents: 'none'
-                    }}
-                >
-                    {connections.map((connection) => {
-                        // Find source and target elements
-                        const sourceElement = elements.find(el => el.id === connection.sourceId);
-                        const targetElement = elements.find(el => el.id === connection.targetId);
-
-                        // Ensure both elements exist and have positions
-                        if (!sourceElement?.position || !targetElement?.position) return null;
-
-                        // Calculate element center positions
-                        const sourcePosition = {
-                            x: sourceElement.position.x,
-                            y: sourceElement.position.y
-                        };
-
-                        const targetPosition = {
-                            x: targetElement.position.x,
-                            y: targetElement.position.y
-                        };
-
-                        return (
-                            <ConnectionLine
-                                key={connection.id}
-                                connection={connection}
-                                sourcePosition={sourcePosition}
-                                targetPosition={targetPosition}
-                                onSelect={setSelectedElement}
-                                isSelected={selectedElementId === connection.id}
-                            />
-                        );
-                    })}
-                </svg>
-
-                {/* Draggable elements */}
                 {elements.map((element) => (
                     <DraggableElement
                         key={element.id}
@@ -266,14 +221,13 @@ const StrategyBuilder: React.FC = () => {
                         isSelected={element.id === selectedElementId}
                         onSelect={setSelectedElement}
                         onMove={moveElement}
-                        onStartConnection={handleStartConnection}
-                        onEndConnection={handleEndConnection}
                     />
                 ))}
+                {/* Connection lines would be drawn here in a real implementation */}
             </div>
 
-            {/* Properties panel - only show if an element is selected */}
-            {selectedElementId && elements.find(el => el.id === selectedElementId) && (
+            {/* Properties panel (would be expanded in a real implementation) */}
+            {selectedElementId && (
                 <PropertiesPanel
                     element={elements.find(el => el.id === selectedElementId)!}
                     onUpdateElement={updateElement}
@@ -286,47 +240,6 @@ const StrategyBuilder: React.FC = () => {
                 onClose={togglePreview}
             />
         </section>
-    );
-};
-
-export default StrategyBuilder;
-<button
-    className={`${styles.elementButton}`}
-    onClick={handleDeleteSelected}
-    style={{ backgroundColor: '#dc3545', color: 'white' }}
->
-    Delete Selected
-</button>
-                )}
-            </div >
-
-    {/* Strategy canvas */ }
-    < div className = { styles.builderCanvas } onClick = {() => setSelectedElement(null)}>
-    {
-        elements.map((element) => (
-            <DraggableElement
-                key={element.id}
-                element={element}
-                isSelected={element.id === selectedElementId}
-                onSelect={setSelectedElement}
-                onMove={moveElement}
-            />
-        ))
-    }
-{/* Connection lines would be drawn here in a real implementation */ }
-            </div >
-
-    {/* Properties panel (would be expanded in a real implementation) */ }
-{
-    selectedElementId && (
-        <div className={styles.propertiesPanel}>
-            <h3 className={styles.propertiesTitle}>Element Properties</h3>
-            <p>Selected element: {elements.find(el => el.id === selectedElementId)?.name}</p>
-            <p>Configure element parameters here (form would be implemented based on element type).</p>
-        </div>
-    )
-}
-        </section >
     );
 };
 
