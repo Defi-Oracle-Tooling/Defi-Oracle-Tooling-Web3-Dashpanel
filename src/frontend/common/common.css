@@ -1,0 +1,30 @@
+/* Shared styles for header, footer, and other common components */
+header, footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px; /* Added horizontal padding */
+  text-align: center; /* Center align header/footer content */
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+nav {
+  margin-top: 5px;
+}
+
+nav a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  margin-top: auto; /* Push footer to the bottom */
+}
