@@ -189,7 +189,9 @@ def generate_structure() -> None:
             # if payload.get('type') == 'INCOMING_PAYMENT':
             #     account_id = payload.get('accountId')
             #     amount = payload.get('amount')
-            #     print(f"Received payment of {amount} for account {account_id}")
+            #     print(
+            #         f"Received payment of {amount} for account {account_id}"
+            #     )
             #     # Add logic to credit the user's account in your system
 
             return {"status": "received"}
