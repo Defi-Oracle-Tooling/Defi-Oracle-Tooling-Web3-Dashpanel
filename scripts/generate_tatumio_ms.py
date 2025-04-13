@@ -180,7 +180,8 @@ def generate_structure() -> None:
             # TODO: Implement robust processing for Tatum.io webhook payloads.
             # This might involve:
             # - Verifying the webhook signature (if provided by Tatum).
-            # - Identifying the event type (e.g., incoming payment, account update).
+            # - Identifying the event type (e.g., incoming payment, account 
+            #   update).
             # - Updating internal database records based on the event.
             # - Triggering actions (e.g., notifying users via WebSocket).
             print(f"Received webhook payload: {payload}")
@@ -305,7 +306,9 @@ def generate_structure() -> None:
             except Exception as e:
                 # Log the error details for debugging
                 print(f"Error processing withdrawal: {e}")
-                raise Exception("Failed to process withdrawal.") from e
+                raise Exception(
+                    "Failed to process withdrawal."
+                ) from e
     """
     )
     write_file(BACKEND_DIR / "app" / "services" / "besu_service.py", besu_service)
@@ -377,9 +380,9 @@ def generate_structure() -> None:
         ## Integration with Frontend
 
         This backend provides API, Webhook, and WebSocket endpoints for your
-        TypeScript-React frontend. It integrates Tatum.io services and 
+        TypeScript-React frontend. It integrates Tatum.io services and
         supports connectivity to multiple EVM blockchains via configuration.
-    """
+        """
     )
     write_file(BACKEND_DIR / "README.md", readme)
 

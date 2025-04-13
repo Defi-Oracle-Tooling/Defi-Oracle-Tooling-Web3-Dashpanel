@@ -53,8 +53,8 @@ export default tseslint.config(
             // "@typescript-eslint/explicit-module-boundary-types": "off", // Allow inferred return types for now
             "@typescript-eslint/explicit-module-boundary-types": "warn", // Require explicit return types
             "no-console": "warn", // Warn about console.log
-            "@typescript-eslint/no-explicit-any": "warn", // Warn against using 'any'
-            "@typescript-eslint/no-floating-promises": "warn", // Warn about unhandled promises
+            "@typescript-eslint/no-explicit-any": "error", // Changed from "warn" to "error"
+            "@typescript-eslint/no-floating-promises": "error", // Changed from "warn" to "error"
             // Add specific rules based on project needs later
         },
     }
