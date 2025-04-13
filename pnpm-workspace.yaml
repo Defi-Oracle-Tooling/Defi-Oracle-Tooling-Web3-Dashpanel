@@ -1,0 +1,16 @@
+packages:
+  # Main workspace packages
+  - 'src/frontend'
+  - 'src/middleware'
+  
+  # Submodules
+  - 'submodules/Aave-Special-Lever'
+  - 'submodules/ARNP-FusionAI-Orchestrator'
+  - 'submodules/Dodoex.io-stndrd-microservice'
+  - 'submodules/Dodoex.io-dfi0m-microservice'
+  - 'submodules/SolaceNet-Integration'
+  
+  # Exclude node_modules and build artifacts
+  - '!**/node_modules/**'
+  - '!**/dist/**'
+  - '!**/build/**'

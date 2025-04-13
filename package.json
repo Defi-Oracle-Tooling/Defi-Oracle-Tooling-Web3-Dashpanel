@@ -14,6 +14,8 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"*.{js,json,md}\""
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.3.4",
     "axios": "^1.8.4",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -32,6 +34,7 @@
     "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.29.1",
+    "concurrently": "^8.2.2",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
@@ -42,8 +45,7 @@
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.29.1",
-    "vitest": "^1.6.0",
-    "concurrently": "^8.0.1"
+    "vitest": "^1.6.1"
   },
   "workspaces": [
     "src/frontend",

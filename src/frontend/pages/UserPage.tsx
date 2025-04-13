@@ -1,17 +1,24 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import '../styles/common.css';
-import '../styles/user.css';
+import styles from '../styles/user.module.css';
+import StrategyBuilder from "../components/user/StrategyBuilder"; // Import placeholder
+import TransactionMonitor from "../components/user/TransactionMonitor"; // Import placeholder
+import RecommendationsPanel from "../components/user/RecommendationsPanel"; // Import placeholder
 
 
 const UserPage: React.FC = () => (
-  <div>
+  <div className={styles.pageContainer}>
     <Header />
-    <main>
-      <h1>User Dashboard</h1>
-      <p>Build strategies, monitor transactions, and view recommendations.</p>
-      {/* Implement drag-and-drop strategy builder and real-time charts here */}
+    <main className={styles.mainContent}>
+      <h1 className={styles.title}>User Dashboard</h1>
+      {/* Removed the introductory paragraph */}
+
+      {/* Render placeholder components */}
+      <StrategyBuilder />
+      <TransactionMonitor />
+      <RecommendationsPanel />
+
     </main>
     <Footer />
   </div>

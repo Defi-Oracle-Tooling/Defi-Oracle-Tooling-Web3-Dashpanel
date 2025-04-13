@@ -1,8 +1,8 @@
 import React from "react";
-import '../styles/common.css'; // Keep common styles import
+import styles from '../styles/common.module.css'; // Changed import to CSS Module
 
-const Footer: React.FC = () => ( // Ensure component name matches convention
-  <footer>
+const Footer: React.FC = () => (
+  <footer className={styles.footer}> {/* Applied .footer class */}
     <p>&copy; 2025 DeFi Oracle Tooling Dashboard. All rights reserved.</p>
   </footer>
 );

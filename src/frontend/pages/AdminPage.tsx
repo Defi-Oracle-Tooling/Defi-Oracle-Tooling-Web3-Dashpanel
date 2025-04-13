@@ -1,22 +1,28 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import '../styles/common.css'; // Keep common styles
-import '../styles/admin.css'; // Keep admin-specific styles
+import styles from '../styles/admin.module.css';
+import IntegrationList from '../components/admin/IntegrationList'; // Import the new component
 
-const AdminPage: React.FC = () => ( // Changed component name to match file name and convention
-  <div>
-    <Header />
-    <main>
-      <h1>Admin Dashboard</h1>
-      <p>Manage integrations, monitor logs, and perform administrative actions.</p>
-      {/* Add additional admin panel components here */}
-      {/* Removed the previous ul list */}
-    </main>
-    <Footer />
-  </div>
-);
+const AdminPage: React.FC = () => {
+  return (
+    <div className={styles.pageContainer}>
+      <Header />
+      <main className={styles.mainContent}>
+        <h1 className={styles.title}>Admin Dashboard</h1>
+        <p>Manage integrations, monitor logs, and perform administrative actions.</p>
 
-// Removed the ReactDOM rendering logic, as it's handled in main.tsx
+        {/* Render the IntegrationList component */}
+        <IntegrationList />
 
-export default AdminPage; // Export AdminPage
+        {/* Add other admin sections/components here */}
+        {/* e.g., <LogViewer /> */}
+        {/* e.g., <AdminSettings /> */}
+
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default AdminPage;

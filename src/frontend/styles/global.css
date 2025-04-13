@@ -1,0 +1,21 @@
+/* src/frontend/styles/global.css */
+
+/* Apply base styles needed across the entire application */
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    /* Moved default font here */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Ensure footer stays at bottom */
+}
+
+main {
+    flex-grow: 1;
+    /* Allow main content to take up available space */
+}
+
+/* Add any other truly global resets or base styles here */

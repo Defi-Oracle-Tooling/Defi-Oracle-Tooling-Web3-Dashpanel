@@ -1,0 +1,81 @@
+/* Styles specific to the Admin Dashboard page */
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Integration Section Styles */
+.integrationSection {
+  margin-top: 30px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  /* Add a background */
+}
+
+.integrationSection h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.integrationList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.integrationItem {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  font-size: 0.9em;
+}
+
+.integrationItem:last-child {
+  border-bottom: none;
+}
+
+.integrationItem strong {
+  font-size: 1.1em;
+}
+
+/* Status Indicator Styles */
+.statusActive {
+  color: green;
+  font-weight: bold;
+}
+
+.statusInactive {
+  color: grey;
+}
+
+.statusError {
+  color: red;
+  font-weight: bold;
+}
+
+/* Error Text Style */
+.errorText {
+  color: red;
+  font-weight: bold;
+}
+
+/* Removed body, #root, font-family styles - handled globally or inherited */

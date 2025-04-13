@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // Import global styles first
-import './styles/common.css';
+import './styles/global.css';
 
 // Import Page Components
 import AdminPage from './pages/AdminPage';
