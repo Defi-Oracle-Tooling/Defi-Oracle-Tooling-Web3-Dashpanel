@@ -3,9 +3,9 @@
 generate_backend.py
 
 This script generates a complete backend project scaffolding for a FastAPI backend
-that integrates Tatum.io services and blockchain connectivity (e.g., Hyperledger Besu).
-It is designed to serve as the backend replacement for the TypeScript-React frontend
-in your mono-repository.
+that integrates Tatum.io services and blockchain connectivity
+(e.g., Hyperledger Besu). It is designed to serve as the backend replacement for the
+TypeScript-React frontend in your mono-repository.
 
 The generated project will reside in a "backend" directory at the project root with
 the following structure:
@@ -40,16 +40,19 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 BACKEND_DIR = PROJECT_ROOT / "backend"
 
+
 def write_file(file_path: Path, content: str) -> None:
     """Write content to file and print confirmation."""
-    with open(file_path, "w") as f:
+    with open(file_path, "w", encoding="utf-8") as f:
         f.write(content)
     print(f"Created {file_path}")
+
 
 def create_dir(dir_path: Path) -> None:
     """Create directory if it doesn't exist, print confirmation."""
     os.makedirs(dir_path, exist_ok=True)
     print(f"Created directory {dir_path}")
+
 
 def generate_structure() -> None:
     """Generate the backend directory structure and file contents."""
@@ -74,14 +77,17 @@ def generate_structure() -> None:
         write_file(init_file, "# This file marks the directory as a Python module.\n")
 
     # Create the FastAPI entry point: main.py
-    main_py = textwrap.dedent("""\
+    main_py = textwrap.dedent(
+        """\
         from fastapi import FastAPI
         from app.routers import virtual_accounts, webhooks, sockets
 
         app = FastAPI(title="Tatum.io & Besu Integration Backend")
 
         # Register routers for REST API endpoints, webhooks, and WebSocket endpoints
-        app.include_router(virtual_accounts.router, prefix="/api/va", tags=["Virtual Accounts"])
+        app.include_router(
+            virtual_accounts.router, prefix="/api/va", tags=["Virtual Accounts"]
+        )
         app.include_router(webhooks.router, prefix="/webhooks", tags=["Webhooks"])
         app.include_router(sockets.router, prefix="/ws", tags=["WebSocket"])
 
@@ -92,11 +98,13 @@ def generate_structure() -> None:
         if __name__ == "__main__":
             import uvicorn
             uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "app" / "main.py", main_py)
 
     # Create a config.py file to load environment variables using python-dotenv.
-    config_py = textwrap.dedent("""\
+    config_py = textwrap.dedent(
+        """\
         import os
         from dotenv import load_dotenv
 
@@ -113,11 +121,13 @@ def generate_structure() -> None:
             MASTER_PRIVATE_KEY = os.getenv("MASTER_PRIVATE_KEY", "YOUR_PRIVATE_KEY")
 
         settings = Settings()
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "app" / "config.py", config_py)
 
     # Create REST API endpoints for virtual accounts in routers/virtual_accounts.py.
-    virtual_accounts_router = textwrap.dedent("""\
+    virtual_accounts_router = textwrap.dedent(
+        """\
         from fastapi import APIRouter, HTTPException
         from app.models.schemas import VAResponse
         from app.services.tatum_service import get_virtual_account_data
@@ -131,11 +141,15 @@ def generate_structure() -> None:
                 return data
             except Exception as e:
                 raise HTTPException(status_code=500, detail=str(e))
-    """)
-    write_file(BACKEND_DIR / "app" / "routers" / "virtual_accounts.py", virtual_accounts_router)
+    """
+    )
+    write_file(
+        BACKEND_DIR / "app" / "routers" / "virtual_accounts.py", virtual_accounts_router
+    )
 
     # Create webhook endpoints in routers/webhooks.py.
-    webhooks_router = textwrap.dedent("""\
+    webhooks_router = textwrap.dedent(
+        """\
         from fastapi import APIRouter, Request
 
         router = APIRouter()
@@ -145,11 +159,13 @@ def generate_structure() -> None:
             payload = await request.json()
             # TODO: Process webhook payload from Tatum.io or blockchain events.
             return {"status": "received", "data": payload}
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "app" / "routers" / "webhooks.py", webhooks_router)
 
     # Create WebSocket endpoints in routers/sockets.py.
-    sockets_router = textwrap.dedent("""\
+    sockets_router = textwrap.dedent(
+        """\
         from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
         router = APIRouter()
@@ -181,11 +197,13 @@ def generate_structure() -> None:
                     await manager.broadcast(f"Echo: {data}")
             except WebSocketDisconnect:
                 manager.disconnect(websocket)
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "app" / "routers" / "sockets.py", sockets_router)
 
     # Create Tatum service functions in services/tatum_service.py.
-    tatum_service = textwrap.dedent("""\
+    tatum_service = textwrap.dedent(
+        """\
         import requests
         from app.config import settings
 
@@ -199,11 +217,13 @@ def generate_structure() -> None:
             return response.json()
 
         # Additional functions for crediting or debiting the virtual account can be added.
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "app" / "services" / "tatum_service.py", tatum_service)
 
     # Create Blockchain service functions in services/besu_service.py.
-    besu_service = textwrap.dedent("""\
+    besu_service = textwrap.dedent(
+        """\
         from web3 import Web3
         from app.config import settings
 
@@ -222,11 +242,13 @@ def generate_structure() -> None:
             signed_tx = web3.eth.account.sign_transaction(tx, settings.MASTER_PRIVATE_KEY)
             tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
             return web3.toHex(tx_hash)
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "app" / "services" / "besu_service.py", besu_service)
 
     # Create Pydantic models/schemas in models/schemas.py.
-    schemas = textwrap.dedent("""\
+    schemas = textwrap.dedent(
+        """\
         from pydantic import BaseModel
 
         class VAResponse(BaseModel):
@@ -234,22 +256,26 @@ def generate_structure() -> None:
             balance: float
             currency: str
             # Add more fields from the Tatum.io response as needed.
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "app" / "models" / "schemas.py", schemas)
 
     # Create requirements.txt with necessary packages.
-    requirements = textwrap.dedent("""\
+    requirements = textwrap.dedent(
+        """\
         fastapi
         uvicorn
         requests
         python-dotenv
         web3
         pydantic
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "requirements.txt", requirements)
 
     # Create README.md with basic information and setup instructions.
-    readme = textwrap.dedent("""\
+    readme = textwrap.dedent(
+        """\
         # Tatum.io & Besu Integration Backend
 
         This backend service is auto-generated to interact with Tatum.io APIs and a Hyperledger Besu
@@ -287,13 +313,16 @@ def generate_structure() -> None:
         This backend provides API, Webhook, and WebSocket endpoints that your TypeScript-React frontend
         can communicate with. It also integrates Tatum.io services, including beta endpoints, and supports
         connectivity to multiple Elemental Imperium EVM blockchains via parameterized configuration.
-    """)
+    """
+    )
     write_file(BACKEND_DIR / "README.md", readme)
+
 
 def main() -> None:
     print(f"Generating backend project scaffolding in: {BACKEND_DIR}")
     generate_structure()
     print("Backend project scaffolding generated successfully.")
 
+
 if __name__ == "__main__":
-    main()      
+    main()
