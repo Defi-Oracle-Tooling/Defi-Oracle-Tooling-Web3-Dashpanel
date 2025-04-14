@@ -57,5 +57,10 @@
       "esbuild"
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [],
+  "author": ""
 }
